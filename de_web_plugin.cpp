@@ -1653,7 +1653,7 @@ void DeRestPluginPrivate::addLightNode(const deCONZ::Node *node)
         lightNode.setManufacturerCode(node->nodeDescriptor().manufacturerCode());
         
         //Livolo haven't Cluster 0006, so need to force on/off light
-        if ((node->nodeDescriptor().manufacturerCode() == VENDOR_NONE) && (false) )
+        if ((node->nodeDescriptor().manufacturerCode() == VENDOR_NONE) && (true) )
         //if ((node->nodeDescriptor().manufacturerCode() == VENDOR_NONE) && (node->nodeDescriptor().manufacturer() == QLatin1String("LIVOLO")) )
         {
             lightNode.setHaEndpoint(*i);
