@@ -12922,6 +12922,22 @@ void DeRestPluginPrivate::handleDeviceAnnceIndication(const deCONZ::ApsDataIndic
             }
 
             DBG_Printf(DBG_INFO, "DeviceAnnce of LightNode: %s Permit Join: %i\n", qPrintable(i->address().toStringExt()), gwPermitJoinDuration);
+            
+            //Livolo test
+            if ((node->nodeDescriptor().manufacturerCode() == VENDOR_NONE) && (true) )
+            {
+                DBG_Printf(DBG_INFO, "Send toggle command livolo\n");
+                TaskItem task;
+                task.lightNode = &*i;
+                task.req.dstAddress().setNwk(nwk);
+                task.req.setTxOptions(deCONZ::ApsTxAcknowledgedTransmission);
+                task.req.setDstEndpoint(task.lightNode->haEndpoint().endpoint());
+                task.req.setSrcEndpoint(getSrcEndpoint(task.lightNode, task.req));
+                task.req.setDstAddressMode(deCONZ::ApsNwkAddress);
+                task.req.setSendDelay(1000);
+                queryTime = queryTime.addSecs(5);
+                addTaskSetOnOff(task, ONOFF_COMMAND_TOGGLE, 0);
+            }
 
             // force reading attributes
             i->enableRead(READ_GROUPS | READ_SCENES);
