@@ -202,6 +202,7 @@ static const SupportedDevice supportedDevices[] = {
     { VENDOR_UBISYS, "S2", ubisysMacPrefix },
     { VENDOR_NONE, "Z716A", netvoxMacPrefix },
     // { VENDOR_OSRAM_STACK, "Plug", osramMacPrefix }, // OSRAM plug - exposed only as light
+    { VENDOR_OSRAM, "Lightify Switch Mini", emberMacPrefix }, // Osram mini remote
     { VENDOR_OSRAM_STACK, "CO_", heimanMacPrefix }, // Heiman CO sensor
     { VENDOR_OSRAM_STACK, "DOOR_", heimanMacPrefix }, // Heiman door/window sensor - older model
     { VENDOR_OSRAM_STACK, "PIR_", heimanMacPrefix }, // Heiman motion sensor
@@ -3358,6 +3359,7 @@ void DeRestPluginPrivate::checkSensorButtonEvent(Sensor *sensor, const deCONZ::A
         sensor->previousSequenceNumber = zclFrame.sequenceNumber();
         checkReporting = true;
     }
+    
     else if (sensor->modelId() == QLatin1String("Remote switch") || //legrand switch
              sensor->modelId() == QLatin1String("Double gangs remote switch") || //Legrand micro module
              sensor->modelId() == QLatin1String("Shutters central remote switch") || // legrand shutter switch
@@ -3372,6 +3374,11 @@ void DeRestPluginPrivate::checkSensorButtonEvent(Sensor *sensor, const deCONZ::A
              sensor->modelId().startsWith(QLatin1String("Z3-1BRL"))) // Lutron Aurora Friends-of-Hue dimmer switch
     {
         checkReporting = true;
+    }
+    else if (sensor->modelId().startsWith(QLatin1String("Lightify Switch Mini"))) // Osram mini switch
+    {
+        checkReporting = true;
+        checkClientCluster = true;
     }
     else if (sensor->modelId().startsWith(QLatin1String("ICZB-RM"))) // icasa remote
     {

@@ -140,6 +140,24 @@ static const Sensor::ButtonMap ikeaRemoteMap[] = {
     { Sensor::ModeNone,             0x00, 0x0000, 0x00, 0,    0,                                           nullptr }
 };
 
+static const Sensor::ButtonMap osramMiniRemoteMap[] = {
+//    mode                          ep    cluster cmd   param button                                       name
+    // Button 0
+    { Sensor::ModeScenes, 0x01, 0x0005, 0x02, 0,    S_BUTTON_1 + S_BUTTON_ACTION_SHORT_RELEASED, "0" },
+    { Sensor::ModeScenes, 0x01, 0x0005, 0x07, 1,    S_BUTTON_1 + S_BUTTON_ACTION_HOLD,           "0 long" },
+    { Sensor::ModeScenes, 0x01, 0x0005, 0x08, 1,    S_BUTTON_1 + S_BUTTON_ACTION_LONG_RELEASED,  "0 Release" },
+    // Button up
+    { Sensor::ModeScenes, 0x01, 0x0006, 0x01, 0,    S_BUTTON_2 + S_BUTTON_ACTION_SHORT_RELEASED, "Up" },
+    { Sensor::ModeScenes, 0x01, 0x0008, 0x05, 0,    S_BUTTON_2 + S_BUTTON_ACTION_HOLD,           "Up long" },
+    { Sensor::ModeScenes, 0x01, 0x0008, 0x07, 0,    S_BUTTON_2 + S_BUTTON_ACTION_LONG_RELEASED,  "Up release" },
+    // Button down
+    { Sensor::ModeScenes, 0x01, 0x0006, 0x00, 0,    S_BUTTON_3 + S_BUTTON_ACTION_SHORT_RELEASED, "Down" },
+    { Sensor::ModeScenes, 0x01, 0x0008, 0x01, 1,    S_BUTTON_3 + S_BUTTON_ACTION_HOLD,           "Down long" },
+    { Sensor::ModeScenes, 0x01, 0x0008, 0x03, 1,    S_BUTTON_3 + S_BUTTON_ACTION_LONG_RELEASED,  "Down release" },
+    // end
+    { Sensor::ModeNone,             0x00, 0x0000, 0x00, 0,    0,                                           nullptr }
+};
+
 static const Sensor::ButtonMap ikeaDimmerMap[] = {
 //    mode                ep    cluster cmd   param button                                       name
     // on
@@ -1250,6 +1268,10 @@ const Sensor::ButtonMap *Sensor::buttonMap()
             else if (modelid.startsWith(QLatin1String("TRADFRI on/off switch"))) { m_buttonMap = ikeaOnOffMap; }
             else if (modelid.startsWith(QLatin1String("TRADFRI open/close remote"))) { m_buttonMap = ikeaOpenCloseMap; }
             else if (modelid.startsWith(QLatin1String("SYMFONISK"))) { m_buttonMap = ikeaSoundControllerMap; }
+        }
+        else if (manufacturer.startsWith(QLatin1String("OSRAM")))
+        {
+            if      (modelid == QLatin1String("Lightify Switch Mini")) { m_buttonMap = osramMiniRemoteMap; }
         }
         else if (manufacturer == QLatin1String("ubisys"))
         {
