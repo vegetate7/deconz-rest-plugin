@@ -161,21 +161,21 @@ static const Sensor::ButtonMap osramMiniRemoteMap[] = {
 static const Sensor::ButtonMap osram4ButRemoteMap[] = {
 //    mode                ep    cluster cmd   param button                                       name
     // Button top / left
-    { Sensor::ModeScenes, 0x01, 0x0006, 0x0A, 0,    S_BUTTON_1 + S_BUTTON_ACTION_SHORT_RELEASED, "press" },
-    { Sensor::ModeScenes, 0x01, 0x0006, 0x0A, 1,    S_BUTTON_1 + S_BUTTON_ACTION_HOLD,           "press long" },
-    { Sensor::ModeScenes, 0x01, 0x0006, 0x0A, 2,    S_BUTTON_1 + S_BUTTON_ACTION_LONG_RELEASED,  "press release" },
+    { Sensor::ModeScenes, 0x01, 0x0006, 0x00, 0,    S_BUTTON_1 + S_BUTTON_ACTION_SHORT_RELEASED, "press" },
+    { Sensor::ModeScenes, 0x01, 0x0006, 0x01, 0,    S_BUTTON_1 + S_BUTTON_ACTION_HOLD,           "press long" },
+    { Sensor::ModeScenes, 0x01, 0x0006, 0x03, 0,    S_BUTTON_1 + S_BUTTON_ACTION_LONG_RELEASED,  "press release" },
     // Button top / right
-    { Sensor::ModeScenes, 0x02, 0x0006, 0x0A, 0,    S_BUTTON_2 + S_BUTTON_ACTION_SHORT_RELEASED, "press" },
-    { Sensor::ModeScenes, 0x02, 0x0006, 0x0A, 1,    S_BUTTON_2 + S_BUTTON_ACTION_HOLD,           "press long" },
-    { Sensor::ModeScenes, 0x02, 0x0006, 0x0A, 2,    S_BUTTON_2 + S_BUTTON_ACTION_LONG_RELEASED,  "press Release" },
+    { Sensor::ModeScenes, 0x02, 0x0006, 0x00, 0,    S_BUTTON_2 + S_BUTTON_ACTION_SHORT_RELEASED, "press" },
+    { Sensor::ModeScenes, 0x02, 0x0006, 0x01, 0,    S_BUTTON_2 + S_BUTTON_ACTION_HOLD,           "press long" },
+    { Sensor::ModeScenes, 0x02, 0x0006, 0x03, 0,    S_BUTTON_2 + S_BUTTON_ACTION_LONG_RELEASED,  "press Release" },
     // Button bottom / left 
-    { Sensor::ModeScenes, 0x03, 0x0006, 0x0A, 0,    S_BUTTON_3 + S_BUTTON_ACTION_SHORT_RELEASED, "press" },
-    { Sensor::ModeScenes, 0x03, 0x0006, 0x0A, 1,    S_BUTTON_3 + S_BUTTON_ACTION_HOLD,           "press long" },
-    { Sensor::ModeScenes, 0x03, 0x0006, 0x0A, 2,    S_BUTTON_3 + S_BUTTON_ACTION_LONG_RELEASED,  "press release" },
+    { Sensor::ModeScenes, 0x03, 0x0006, 0x00, 0,    S_BUTTON_3 + S_BUTTON_ACTION_SHORT_RELEASED, "press" },
+    { Sensor::ModeScenes, 0x03, 0x0006, 0x01, 0,    S_BUTTON_3 + S_BUTTON_ACTION_HOLD,           "press long" },
+    { Sensor::ModeScenes, 0x03, 0x0006, 0x03, 0,    S_BUTTON_3 + S_BUTTON_ACTION_LONG_RELEASED,  "press release" },
     // Button bottom / right 
-    { Sensor::ModeScenes, 0x04, 0x0006, 0x0A, 0,    S_BUTTON_4 + S_BUTTON_ACTION_SHORT_RELEASED, "press" },
-    { Sensor::ModeScenes, 0x04, 0x0006, 0x0A, 1,    S_BUTTON_4 + S_BUTTON_ACTION_HOLD,           "press long" },
-    { Sensor::ModeScenes, 0x04, 0x0006, 0x0A, 2,    S_BUTTON_4 + S_BUTTON_ACTION_LONG_RELEASED,  "press release" },
+    { Sensor::ModeScenes, 0x04, 0x0006, 0x00, 0,    S_BUTTON_4 + S_BUTTON_ACTION_SHORT_RELEASED, "press" },
+    { Sensor::ModeScenes, 0x04, 0x0006, 0x01, 0,    S_BUTTON_4 + S_BUTTON_ACTION_HOLD,           "press long" },
+    { Sensor::ModeScenes, 0x04, 0x0006, 0x03, 0,    S_BUTTON_4 + S_BUTTON_ACTION_LONG_RELEASED,  "press release" },
     // end
     { Sensor::ModeNone,             0x00, 0x0000, 0x00, 0,    0,                                           nullptr }
 };
