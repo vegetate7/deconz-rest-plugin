@@ -158,6 +158,28 @@ static const Sensor::ButtonMap osramMiniRemoteMap[] = {
     { Sensor::ModeNone,             0x00, 0x0000, 0x00, 0,    0,                                           nullptr }
 };
 
+static const Sensor::ButtonMap osram4ButRemoteMap[] = {
+//    mode                ep    cluster cmd   param button                                       name
+    // Button top / left
+    { Sensor::ModeScenes, 0x01, 0x0006, 0x0A, 0,    S_BUTTON_1 + S_BUTTON_ACTION_SHORT_RELEASED, "press" },
+    { Sensor::ModeScenes, 0x01, 0x0006, 0x0A, 1,    S_BUTTON_1 + S_BUTTON_ACTION_HOLD,           "press long" },
+    { Sensor::ModeScenes, 0x01, 0x0006, 0x0A, 2,    S_BUTTON_1 + S_BUTTON_ACTION_LONG_RELEASED,  "press release" },
+    // Button top / right
+    { Sensor::ModeScenes, 0x02, 0x0006, 0x0A, 0,    S_BUTTON_2 + S_BUTTON_ACTION_SHORT_RELEASED, "press" },
+    { Sensor::ModeScenes, 0x02, 0x0006, 0x0A, 1,    S_BUTTON_2 + S_BUTTON_ACTION_HOLD,           "press long" },
+    { Sensor::ModeScenes, 0x02, 0x0006, 0x0A, 2,    S_BUTTON_2 + S_BUTTON_ACTION_LONG_RELEASED,  "press Release" },
+    // Button bottom / left 
+    { Sensor::ModeScenes, 0x03, 0x0006, 0x0A, 0,    S_BUTTON_3 + S_BUTTON_ACTION_SHORT_RELEASED, "press" },
+    { Sensor::ModeScenes, 0x03, 0x0006, 0x0A, 1,    S_BUTTON_3 + S_BUTTON_ACTION_HOLD,           "press long" },
+    { Sensor::ModeScenes, 0x03, 0x0006, 0x0A, 2,    S_BUTTON_3 + S_BUTTON_ACTION_LONG_RELEASED,  "press release" },
+    // Button bottom / right 
+    { Sensor::ModeScenes, 0x04, 0x0006, 0x0A, 0,    S_BUTTON_4 + S_BUTTON_ACTION_SHORT_RELEASED, "press" },
+    { Sensor::ModeScenes, 0x04, 0x0006, 0x0A, 1,    S_BUTTON_4 + S_BUTTON_ACTION_HOLD,           "press long" },
+    { Sensor::ModeScenes, 0x04, 0x0006, 0x0A, 2,    S_BUTTON_4 + S_BUTTON_ACTION_LONG_RELEASED,  "press release" },
+    // end
+    { Sensor::ModeNone,             0x00, 0x0000, 0x00, 0,    0,                                           nullptr }
+};
+
 static const Sensor::ButtonMap ikeaDimmerMap[] = {
 //    mode                ep    cluster cmd   param button                                       name
     // on
@@ -1291,6 +1313,7 @@ const Sensor::ButtonMap *Sensor::buttonMap()
         else if (manufacturer.startsWith(QLatin1String("OSRAM")))
         {
             if      (modelid == QLatin1String("Lightify Switch Mini")) { m_buttonMap = osramMiniRemoteMap; }
+            if      (modelid == QLatin1String("Switch 4x EU-LIGHTIFY")) { m_buttonMap = osram4ButRemoteMap; }
         }
         else if (manufacturer == QLatin1String("ubisys"))
         {

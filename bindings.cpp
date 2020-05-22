@@ -1925,6 +1925,7 @@ bool DeRestPluginPrivate::checkSensorBindingsForAttributeReporting(Sensor *senso
         sensor->modelId().startsWith(QLatin1String("SYMFONISK")) ||
         // OSRAM
         sensor->modelId() == QLatin1String("Lightify Switch Mini") || // Mini remote with > and <
+        sensor->modelId() == QLatin1String("Switch 4x EU-LIGHTIFY") || // 4 button remote
         // Keen Home
         sensor->modelId().startsWith(QLatin1String("SV01-")) ||
         // Trust ZPIR-8000
@@ -2499,7 +2500,8 @@ bool DeRestPluginPrivate::checkSensorBindingsForClientClusters(Sensor *sensor)
     //     srcEndpoints.push_back(sensor->fingerPrint().endpoint);
     // }
     // OSRAM mini switch
-    else if (sensor->modelId() == QLatin1String("Lightify Switch Mini"))
+    else if (sensor->modelId() == QLatin1String("Lightify Switch Mini") ||
+             sensor->modelId() == QLatin1String("Switch 4x EU-LIGHTIFY") )
     {
         clusters.push_back(ONOFF_CLUSTER_ID);
         clusters.push_back(LEVEL_CLUSTER_ID);
