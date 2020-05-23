@@ -758,9 +758,12 @@ void DeRestPluginPrivate::apsdeDataIndication(const deCONZ::ApsDataIndication &i
                     }
                 }
             }
+            
+            DBG_Printf(DBG_INFO, "MyDebug 1\n");
 
             if (sensorNode)
             {
+                DBG_Printf(DBG_INFO, "MyDebug 2\n");
                 sensorNode->rx();
                 sensorNode->incrementRxCounter();
                 ResourceItem *item = sensorNode->item(RConfigReachable);
@@ -3253,6 +3256,8 @@ void DeRestPluginPrivate::checkSensorButtonEvent(Sensor *sensor, const deCONZ::A
     }
 
     checkInstaModelId(sensor);
+    
+    DBG_Printf(DBG_INFO, "MyDebug 3\n");
 
     // DE Lighting Switch: probe for mode changes
     if (sensor->modelId() == QLatin1String("Lighting Switch") && ind.dstAddressMode() == deCONZ::ApsGroupAddress)
@@ -3389,6 +3394,7 @@ void DeRestPluginPrivate::checkSensorButtonEvent(Sensor *sensor, const deCONZ::A
     else if (sensor->modelId().startsWith(QLatin1String("Switch 4x EU-LIGHTIFY")) || //Osram 4 buttons remote
              sensor->modelId().startsWith(QLatin1String("Lightify Switch Mini"))) // Osram mini switch
     {
+        DBG_Printf(DBG_INFO, "MyDebug 4\n");
         checkReporting = true;
         checkClientCluster = true;
     }
@@ -3529,6 +3535,7 @@ void DeRestPluginPrivate::checkSensorButtonEvent(Sensor *sensor, const deCONZ::A
             buttonMap->zclCommandId == zclFrame.commandId())
         {
             ok = true;
+            DBG_Printf(DBG_INFO, "MyDebug 6\n");
 
             if (zclFrame.isProfileWideCommand() &&
                 zclFrame.commandId() == deCONZ::ZclReportAttributesId &&
