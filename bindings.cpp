@@ -2500,13 +2500,23 @@ bool DeRestPluginPrivate::checkSensorBindingsForClientClusters(Sensor *sensor)
     //     srcEndpoints.push_back(sensor->fingerPrint().endpoint);
     // }
     // OSRAM mini switch
-    else if (sensor->modelId() == QLatin1String("Lightify Switch Mini") ||
-             sensor->modelId() == QLatin1String("Switch 4x EU-LIGHTIFY") )
+    else if (sensor->modelId() == QLatin1String("Lightify Switch Mini") )
     {
         clusters.push_back(ONOFF_CLUSTER_ID);
         clusters.push_back(LEVEL_CLUSTER_ID);
         clusters.push_back(SCENE_CLUSTER_ID);
         srcEndpoints.push_back(sensor->fingerPrint().endpoint);
+    }
+    // OSRAM 4 button mini switch
+    else if (sensor->modelId() == QLatin1String("Switch 4x EU-LIGHTIFY") )
+    {
+        clusters.push_back(ONOFF_CLUSTER_ID);
+        clusters.push_back(LEVEL_CLUSTER_ID);
+        clusters.push_back(SCENE_CLUSTER_ID);
+        srcEndpoints.push_back(0x01);
+        srcEndpoints.push_back(0x02);
+        srcEndpoints.push_back(0x03);
+        srcEndpoints.push_back(0x04);
     }
     // LEGRAND Remote switch, simple and double
     else if (sensor->modelId() == QLatin1String("Remote switch") ||

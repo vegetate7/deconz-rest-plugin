@@ -752,6 +752,10 @@ void DeRestPluginPrivate::apsdeDataIndication(const deCONZ::ApsDataIndication &i
                     {
                         sensorNode = getSensorNodeForAddressAndEndpoint(ind.srcAddress(), 0x01);
                     }
+                    else if (sensorNode->modelId().startsWith(QLatin1String("Switch 4x EU-LIGHTIFY"))) //Osram remote
+                    {
+                        sensorNode = getSensorNodeForAddressAndEndpoint(ind.srcAddress(), 0x01);
+                    }
                     else
                     {
                         sensorNode = 0; // not supported
