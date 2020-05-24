@@ -4059,6 +4059,10 @@ void DeRestPluginPrivate::addSensorNode(const deCONZ::Node *node, const deCONZ::
                     {
                         // ignore second endpoint
                     }
+                    else if (modelId == QLatin1String("Switch 4x EU-LIGHTIFY") && i->endpoint() != 0x01)
+                    {
+                        // ignore all other endpoint
+                    }
                     else
                     {
                         fpSwitch.inClusters.push_back(ci->id());
