@@ -753,7 +753,8 @@ void DeRestPluginPrivate::apsdeDataIndication(const deCONZ::ApsDataIndication &i
                     {
                         sensorNode = getSensorNodeForAddressAndEndpoint(ind.srcAddress(), 0x01);
                     }
-                    else if (sensorNode->modelId().startsWith(QLatin1String("Switch 4x EU-LIGHTIFY"))) //Osram remote
+                    else if (sensorNode->modelId().startsWith(QLatin1String("Switch 4x EU-LIGHTIFY")) || //Osram 4 button
+                             sensorNode->modelId().startsWith(QLatin1String("Lightify Switch Mini")) ) //Osram 3 button
                     {
                         sensorNode = getSensorNodeForAddressAndEndpoint(ind.srcAddress(), 0x01);
                     }
@@ -4073,7 +4074,8 @@ void DeRestPluginPrivate::addSensorNode(const deCONZ::Node *node, const deCONZ::
                     {
                         // ignore second endpoint
                     }
-                    else if (modelId == QLatin1String("Switch 4x EU-LIGHTIFY") && i->endpoint() != 0x01)
+                    else if ( (modelId == QLatin1String("Switch 4x EU-LIGHTIFY") || (modelId == QLatin1String("Lightify Switch Mini")) )
+                            && (i->endpoint() != 0x01) )
                     {
                         // ignore all other endpoint
                     }
