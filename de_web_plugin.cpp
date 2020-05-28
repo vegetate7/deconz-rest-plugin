@@ -267,7 +267,7 @@ static const SupportedDevice supportedDevices[] = {
     { VENDOR_EMBER, "3AFE140103020000", konkeMacPrefix }, // Konke Kit Pro-FT Temp Humidity Sensor
     { VENDOR_EMBER, "3AFE130104020015", konkeMacPrefix }, // Konke Kit Pro-Door Entry Sensor
     { VENDOR_NONE, "RICI01", tiMacPrefix}, // LifeControl smart plug
-    { VENDOR_JENNIC, "VOC_Sensor", jennicMacPrefix}, //LifeControl Enviroment sensor
+    { VENDOR_JENNIC, "VOC_Sensor", jennicMacPrefix}, // LifeControl Enviroment sensor
     { VENDOR_JENNIC, "SN10ZW", jennicMacPrefix }, // ORVIBO motion sensor
     { VENDOR_OSRAM_STACK, "SF20", heimanMacPrefix }, // ORVIBO SF20 smoke sensor
     { VENDOR_HEIMAN, "SF21", emberMacPrefix }, // ORVIBO SF21 smoke sensor
@@ -299,6 +299,7 @@ static const SupportedDevice supportedDevices[] = {
     { VENDOR_SERCOMM, "SZ-SRN12N", emberMacPrefix }, // Sercomm siren
     { VENDOR_SERCOMM, "SZ-SRN12N", energyMiMacPrefix }, // Sercomm siren
     { VENDOR_SERCOMM, "SZ-DWS04", emberMacPrefix }, // Sercomm open/close sensor
+    { VENDOR_SERCOMM, "Tripper", emberMacPrefix }, // Quirky Tripper (Sercomm) open/close sensor
     { VENDOR_ALERTME, "MOT003", tiMacPrefix }, // Hive Motion Sensor
     { VENDOR_SUNRICHER, "4512703", silabs2MacPrefix }, // Namron 4-ch remote controller
     { VENDOR_SENGLED_OPTOELEC, "E13-", zhejiangMacPrefix }, // Sengled PAR38 Bulbs
@@ -4255,6 +4256,10 @@ void DeRestPluginPrivate::addSensorNode(const deCONZ::Node *node, const deCONZ::
 
                 case TEMPERATURE_MEASUREMENT_CLUSTER_ID:
                 {
+                    if (modelId == QLatin1String("VOC_Sensor"))
+                    {
+                        fpHumiditySensor.inClusters.push_back(ci->id());
+                    }
                     fpTemperatureSensor.inClusters.push_back(ci->id());
                 }
                     break;
@@ -6107,7 +6112,8 @@ void DeRestPluginPrivate::updateSensorNode(const deCONZ::NodeEvent &event)
                                         i->modelId().startsWith(QLatin1String("SV01-")) || // Keen Home vent
                                         i->modelId().startsWith(QLatin1String("4512703")) || // Namron 4-ch remote controller
                                         i->modelId().startsWith(QLatin1String("RC_V14")) || // Heiman remote controller
-                                        i->modelId().startsWith(QLatin1String("RGBgenie ZB-5"))) // RGBgenie remote control
+                                        i->modelId().startsWith(QLatin1String("RGBgenie ZB-5")) || // RGBgenie remote control
+                                        i->modelId().startsWith(QLatin1String("VOC_Sensor"))) // LifeControl Enviroment sensor
                                     {
                                         bat = ia->numericValue().u8;
                                     }
@@ -6144,7 +6150,8 @@ void DeRestPluginPrivate::updateSensorNode(const deCONZ::NodeEvent &event)
                                         i->modelId().startsWith(QLatin1String("SV01-")) || // Keen Home vent
                                         i->modelId().startsWith(QLatin1String("4512703")) || // Namron 4-ch remote controller
                                         i->modelId().startsWith(QLatin1String("RC_V14")) || // Heiman remote controller
-                                        i->modelId().startsWith(QLatin1String("RGBgenie ZB-5"))) // RGBgenie remote control
+                                        i->modelId().startsWith(QLatin1String("RGBgenie ZB-5")) || // RGBgenie remote control
+                                        i->modelId().startsWith(QLatin1String("VOC_Sensor"))) // LifeControl Enviroment sensor
                                     {
                                         bat = ia->numericValue().u8;
                                     }
@@ -6189,7 +6196,8 @@ void DeRestPluginPrivate::updateSensorNode(const deCONZ::NodeEvent &event)
                                     i->modelId().startsWith(QLatin1String("3320-L")) ||    // Centralite contact sensor
                                     i->modelId().startsWith(QLatin1String("3323")) ||      // Centralite contact sensor
                                     i->modelId().startsWith(QLatin1String("lumi.sen_ill")) || // Xiaomi ZB3.0 light sensor
-                                    i->modelId().startsWith(QLatin1String("SZ-DWS04")))    // Sercomm open/close sensor
+                                    i->modelId().startsWith(QLatin1String("SZ-DWS04"))   || // Sercomm open/close sensor
+                                    i->modelId().startsWith(QLatin1String("Tripper"))) // Quirky Tripper (Sercomm) open/close
                                 {  }
                                 else
                                 {
@@ -7700,7 +7708,7 @@ void DeRestPluginPrivate::updateSensorNode(const deCONZ::NodeEvent &event)
                                     i->setZclValue(updateType, event.endpoint(), event.clusterId(), 0x0000, ia->numericValue());
                                     pushZclValueDb(event.node()->address().ext(), event.endpoint(), event.clusterId(), ia->id(), ia->numericValue().u8);
                                 }
-                                
+
                                 ResourceItem *item = i->item(RConfigPending);
                                 if(ia->numericValue().u8 == 1)
                                 {
@@ -13701,7 +13709,7 @@ void DeRestPluginPrivate::taskToLocalData(const TaskItem &task)
         case TaskSetLevel:
         {
             ResourceItem *item = lightNode->item(RStateOn);
-            if (item && item->toBool() != (task.level > 0))
+            if (task.onOff && item && item->toBool() != (task.level > 0)) // FIXME abuse of taks.onOff
             {
                 updateLightEtag(lightNode);
                 item->setValue(task.level > 0);
