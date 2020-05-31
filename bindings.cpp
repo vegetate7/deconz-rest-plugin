@@ -2768,6 +2768,37 @@ void DeRestPluginPrivate::checkSensorGroup(Sensor *sensor)
     {
         //Make group but without uniqueid
     }
+    else if (sensorNode->modelId().startsWith(QLatin1String("Switch 4x EU-LIGHTIFY")) || //Osram 4 button
+             sensorNode->modelId().startsWith(QLatin1String("Lightify Switch Mini")) ) //Osram mini switch
+    {
+
+        // check if group is created for other endpoint
+        for (quint8 ep = 0x01; !group && ep <= 0x03; ep++)
+        {
+            Sensor *s = getSensorNodeForAddressAndEndpoint(sensor->address(), ep);
+            if (s && s->deletedState() == Sensor::StateNormal && s != sensor)
+            {
+                ResourceItem *item = s->item(RConfigGroup);
+                if (item && item->lastSet().isValid())
+                {
+                    const QString &gid = item->toString();
+
+                    std::vector<Group>::iterator i = groups.begin();
+                    std::vector<Group>::iterator end = groups.end();
+
+                    for (; i != end; ++i)
+                    {
+                        if (!gid.isEmpty() && i->state() == Group::StateNormal && i->id() == gid)
+                        {
+                            group = &*i;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+    }
     else if (sensor->modelId() == QLatin1String("RB01") ||
              sensor->modelId() == QLatin1String("RM01"))
     {

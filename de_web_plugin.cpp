@@ -4076,10 +4076,9 @@ void DeRestPluginPrivate::addSensorNode(const deCONZ::Node *node, const deCONZ::
                     {
                         // ignore second endpoint
                     }
-                    else if ( (modelId == QLatin1String("Switch 4x EU-LIGHTIFY") || (modelId == QLatin1String("Lightify Switch Mini")) )
-                            && (i->endpoint() != 0x01) )
+                    else if (modelId == QLatin1String("Switch 4x EU-LIGHTIFY") || (modelId == QLatin1String("Lightify Switch Mini")) )
                     {
-                        // ignore all other endpoint
+                        // Don't create entry for this cluster
                     }
                     else
                     {
@@ -4468,6 +4467,12 @@ void DeRestPluginPrivate::addSensorNode(const deCONZ::Node *node, const deCONZ::
                         node->nodeDescriptor().manufacturerCode() == VENDOR_IKEA)
                     {
                         fpPresenceSensor.outClusters.push_back(ci->id());
+                    }
+                    else if ( (modelId == QLatin1String("Switch 4x EU-LIGHTIFY") || (modelId == QLatin1String("Lightify Switch Mini")) )
+                            && (i->endpoint() == 0x01) )
+                    {
+                        // Only create entry for endpoint 0x01
+                        fpSwitch.outClusters.push_back(ci->id());
                     }
                     else if (node->nodeDescriptor().manufacturerCode() == VENDOR_UBISYS)
                     {
