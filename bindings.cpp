@@ -2515,6 +2515,11 @@ bool DeRestPluginPrivate::checkSensorBindingsForClientClusters(Sensor *sensor)
         srcEndpoints.push_back(0x01);
         srcEndpoints.push_back(0x02);
         srcEndpoints.push_back(0x03);
+        
+        //hack to use all endpoint on same group
+        QString gid0 = gids[0];
+        gids.append(gid0);
+        gids.append(gid0);
 
     }
     // OSRAM 4 button mini switch
@@ -2655,7 +2660,6 @@ bool DeRestPluginPrivate::checkSensorBindingsForClientClusters(Sensor *sensor)
         {
             continue;
         }
-        DBG_Printf(DBG_INFO, "MyDebug 15\n");
 
         std::vector<quint16>::const_iterator i = clusters.begin();
         std::vector<quint16>::const_iterator end = clusters.end();
@@ -2768,8 +2772,8 @@ void DeRestPluginPrivate::checkSensorGroup(Sensor *sensor)
     {
         //Make group but without uniqueid
     }
-    else if (sensorNode->modelId().startsWith(QLatin1String("Switch 4x EU-LIGHTIFY")) || //Osram 4 button
-             sensorNode->modelId().startsWith(QLatin1String("Lightify Switch Mini")) ) //Osram mini switch
+    else if (sensor->modelId().startsWith(QLatin1String("Switch 4x EU-LIGHTIFY")) || //Osram 4 button
+             sensor->modelId().startsWith(QLatin1String("Lightify Switch Mini")) ) //Osram mini switch
     {
 
         // check if group is created for other endpoint
