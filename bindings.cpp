@@ -2144,7 +2144,10 @@ bool DeRestPluginPrivate::checkSensorBindingsForAttributeReporting(Sensor *senso
             {
                 continue; // process only once
             }
-            if (sensor->modelId() == QLatin1String("Remote switch") || sensor->modelId() == QLatin1String("Shutters central remote switch") || sensor->modelId() == QLatin1String("Double gangs remote switch") )
+            if (sensor->modelId() == QLatin1String("Remote switch") || 
+                sensor->modelId() == QLatin1String("Shutters central remote switch") ||
+                sensor->modelId() == QLatin1String("Double gangs remote switch") ||
+                sensor->modelId() == QLatin1String("Remote toggle switch") )
             {
                 //Those device don't support report attribute
                 continue;
@@ -2161,9 +2164,8 @@ bool DeRestPluginPrivate::checkSensorBindingsForAttributeReporting(Sensor *senso
                      sensor->modelId() == QLatin1String("MOSZB-130") ||
                      sensor->modelId() == QLatin1String("FLSZB-110") ||
                      sensor->modelId() == QLatin1String("Zen-01") ||
-                     sensor->modelId() == QLatin1String("Remote switch") ||
-                     sensor->modelId() == QLatin1String("Shutters central remote switch") ||
-                     sensor->modelId() == QLatin1String("Double gangs remote switch") ||
+                     sensor->modelId() == QLatin1String("Switch 4x EU-LIGHTIFY") ||
+                     sensor->modelId() == QLatin1String("Lightify Switch Mini") ||
                      sensor->modelId().startsWith(QLatin1String("ZHMS101")) ||
                      sensor->modelId().endsWith(QLatin1String("86opcn01")) || // Aqara Opple
                      sensor->modelId().startsWith(QLatin1String("1116-S")) ||
@@ -2384,6 +2386,7 @@ bool DeRestPluginPrivate::checkSensorBindingsForAttributeReporting(Sensor *senso
 /*! Creates binding for group control (switches, motion sensor, ...). */
 bool DeRestPluginPrivate::checkSensorBindingsForClientClusters(Sensor *sensor)
 {
+    DBG_Printf(DBG_INFO, "MyDebug 11\n");
     if (!apsCtrl || !sensor || !sensor->node() || !sensor->address().hasExt() || !sensor->toBool(RConfigReachable))
     {
         return false;
@@ -2410,6 +2413,8 @@ bool DeRestPluginPrivate::checkSensorBindingsForClientClusters(Sensor *sensor)
         DBG_Printf(DBG_INFO_L2, "skip check bindings for client clusters (no group)\n");
         return false;
     }
+    
+    DBG_Printf(DBG_INFO, "MyDebug 12\n");
 
     std::vector<quint8> srcEndpoints;
     QStringList gids = item->toString().split(',', QString::SkipEmptyParts);
@@ -2518,6 +2523,7 @@ bool DeRestPluginPrivate::checkSensorBindingsForClientClusters(Sensor *sensor)
         clusters.push_back(ONOFF_CLUSTER_ID);
         clusters.push_back(LEVEL_CLUSTER_ID);
         clusters.push_back(COLOR_CLUSTER_ID);
+
         srcEndpoints.push_back(0x01);
         srcEndpoints.push_back(0x02);
         srcEndpoints.push_back(0x03);
@@ -2635,18 +2641,21 @@ bool DeRestPluginPrivate::checkSensorBindingsForClientClusters(Sensor *sensor)
     {
         return false;
     }
-
+    DBG_Printf(DBG_INFO, "MyDebug 13\n");
     bool ret = false;
     for (int j = 0; j < (int)srcEndpoints.size() && j < gids.size(); j++)
     {
         QString gid = gids[j];
         quint8 srcEndpoint = srcEndpoints[j];
         Group *group = getGroupForId(gid);
+        
+        DBG_Printf(DBG_INFO, "MyDebug 14\n");
 
         if (!group)
         {
             continue;
         }
+        DBG_Printf(DBG_INFO, "MyDebug 15\n");
 
         std::vector<quint16>::const_iterator i = clusters.begin();
         std::vector<quint16>::const_iterator end = clusters.end();
