@@ -2091,6 +2091,16 @@ bool DeRestPluginPrivate::checkSensorBindingsForAttributeReporting(Sensor *senso
             action = BindingTask::ActionBind;
         }
     }
+    
+    //Make bind only for endpoint 01
+    if (sensor->modelId() == QLatin1String("Switch 4x EU-LIGHTIFY") ||
+    sensor->modelId() == QLatin1String("Lightify Switch Mini"))
+    {
+        if (sensor->fingerPrint().endpoint != 0x01)
+        {
+            return false;
+        }
+    }
 
     bool ret = false;
     bool checkBindingTable = false;
@@ -2512,14 +2522,7 @@ bool DeRestPluginPrivate::checkSensorBindingsForClientClusters(Sensor *sensor)
         clusters.push_back(LEVEL_CLUSTER_ID);
         clusters.push_back(COLOR_CLUSTER_ID);
         
-        srcEndpoints.push_back(0x01);
-        srcEndpoints.push_back(0x02);
-        srcEndpoints.push_back(0x03);
-        
-        //hack to use all endpoint on same group
-        QString gid0 = gids[0];
-        gids.append(gid0);
-        gids.append(gid0);
+        srcEndpoints.push_back(sensor->fingerPrint().endpoint);
 
     }
     // OSRAM 4 button mini switch
@@ -2528,11 +2531,8 @@ bool DeRestPluginPrivate::checkSensorBindingsForClientClusters(Sensor *sensor)
         clusters.push_back(ONOFF_CLUSTER_ID);
         clusters.push_back(LEVEL_CLUSTER_ID);
         clusters.push_back(COLOR_CLUSTER_ID);
-
-        srcEndpoints.push_back(0x01);
-        srcEndpoints.push_back(0x02);
-        srcEndpoints.push_back(0x03);
-        srcEndpoints.push_back(0x04);
+        
+        srcEndpoints.push_back(sensor->fingerPrint().endpoint);
     }
     // LEGRAND Remote switch, simple and double
     else if (sensor->modelId() == QLatin1String("Remote switch") ||
