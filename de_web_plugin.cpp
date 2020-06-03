@@ -4518,7 +4518,8 @@ void DeRestPluginPrivate::addSensorNode(const deCONZ::Node *node, const deCONZ::
         {
             if (i->endpoint() != 0x01) // create sensor only for first endpoint
             {
-                fpSwitch.clear();
+                fpSwitch.inClusters.clear();
+                fpSwitch.outClusters.clear();
             }
         }
 
