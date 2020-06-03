@@ -2094,7 +2094,7 @@ bool DeRestPluginPrivate::checkSensorBindingsForAttributeReporting(Sensor *senso
     
     //Make bind only for endpoint 01
     if (sensor->modelId() == QLatin1String("Switch 4x EU-LIGHTIFY") ||
-    sensor->modelId() == QLatin1String("Lightify Switch Mini"))
+        sensor->modelId() == QLatin1String("Lightify Switch Mini"))
     {
         if (sensor->fingerPrint().endpoint != 0x01)
         {
@@ -2175,7 +2175,7 @@ bool DeRestPluginPrivate::checkSensorBindingsForAttributeReporting(Sensor *senso
                      sensor->modelId() == QLatin1String("FLSZB-110") ||
                      sensor->modelId() == QLatin1String("Zen-01") ||
                      sensor->modelId() == QLatin1String("Switch 4x EU-LIGHTIFY") ||
-                     sensor->modelId() == QLatin1String("Lightify Switch Mini") ||
+                     sensor->modelId() == QLatin1String("Lightify Switch Mini") || // Osram 3 button remote
                      sensor->modelId().startsWith(QLatin1String("ZHMS101")) ||
                      sensor->modelId().endsWith(QLatin1String("86opcn01")) || // Aqara Opple
                      sensor->modelId().startsWith(QLatin1String("1116-S")) ||

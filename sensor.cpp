@@ -143,17 +143,17 @@ static const Sensor::ButtonMap ikeaRemoteMap[] = {
 static const Sensor::ButtonMap osramMiniRemoteMap[] = {
     // mode               ep    cluster cmd   param    button                                       name
     // Button up
-    { Sensor::ModeScenes, 0x01, 0x0006, 0x01, 0x00,    S_BUTTON_1 + S_BUTTON_ACTION_SHORT_RELEASED, "Up" },
-    { Sensor::ModeScenes, 0x01, 0x0008, 0x05, 0x00,    S_BUTTON_1 + S_BUTTON_ACTION_HOLD,           "Up long" },
-    { Sensor::ModeScenes, 0x01, 0x0008, 0x03, 0x00,    S_BUTTON_1 + S_BUTTON_ACTION_LONG_RELEASED,  "Up release" },
+    { Sensor::ModeScenes, 0x01, 0x0006, 0x01, 0x00,    S_BUTTON_1 + S_BUTTON_ACTION_SHORT_RELEASED, "Up short press" },
+    { Sensor::ModeScenes, 0x01, 0x0008, 0x05, 0x00,    S_BUTTON_1 + S_BUTTON_ACTION_HOLD,           "Up long press" },
+    { Sensor::ModeScenes, 0x01, 0x0008, 0x03, 0x00,    S_BUTTON_1 + S_BUTTON_ACTION_LONG_RELEASED,  "Up long release" },
     // Button 0 (center)
-    { Sensor::ModeScenes, 0x03, 0x0300, 0x0A, 0x72,    S_BUTTON_3 + S_BUTTON_ACTION_SHORT_RELEASED, "0" },
-    { Sensor::ModeScenes, 0x03, 0x0300, 0x03, 0xFE,    S_BUTTON_3 + S_BUTTON_ACTION_HOLD,           "0 long" },
-    { Sensor::ModeScenes, 0x03, 0x0300, 0x01, 0x01,    S_BUTTON_3 + S_BUTTON_ACTION_LONG_RELEASED,  "0 release" },
+    { Sensor::ModeScenes, 0x03, 0x0300, 0x0A, 0x72,    S_BUTTON_3 + S_BUTTON_ACTION_SHORT_RELEASED, "0 short press" },
+    { Sensor::ModeScenes, 0x03, 0x0300, 0x03, 0xFE,    S_BUTTON_3 + S_BUTTON_ACTION_HOLD,           "0 long press" },
+    { Sensor::ModeScenes, 0x03, 0x0300, 0x01, 0x00,    S_BUTTON_3 + S_BUTTON_ACTION_LONG_RELEASED,  "0 long release" },
     // Button down
-    { Sensor::ModeScenes, 0x02, 0x0006, 0x00, 0x00,    S_BUTTON_2 + S_BUTTON_ACTION_SHORT_RELEASED, "Down" },
-    { Sensor::ModeScenes, 0x02, 0x0008, 0x01, 0x01,    S_BUTTON_2 + S_BUTTON_ACTION_HOLD,           "Down long" },
-    { Sensor::ModeScenes, 0x02, 0x0008, 0x03, 0x01,    S_BUTTON_2 + S_BUTTON_ACTION_LONG_RELEASED,  "Down release" },
+    { Sensor::ModeScenes, 0x02, 0x0006, 0x00, 0x00,    S_BUTTON_2 + S_BUTTON_ACTION_SHORT_RELEASED, "Down short press" },
+    { Sensor::ModeScenes, 0x02, 0x0008, 0x01, 0x01,    S_BUTTON_2 + S_BUTTON_ACTION_HOLD,           "Down long press" },
+    { Sensor::ModeScenes, 0x02, 0x0008, 0x03, 0x01,    S_BUTTON_2 + S_BUTTON_ACTION_LONG_RELEASED,  "Down long release" },
     // end
     { Sensor::ModeNone,   0x00, 0x0000, 0x00,    0,    0,                                           nullptr }
 };
