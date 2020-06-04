@@ -3517,6 +3517,33 @@ void DeRestPluginPrivate::checkSensorButtonEvent(Sensor *sensor, const deCONZ::A
             Event e(RSensors, REventValidGroup, sensor->id());
             enqueueEvent(e);
         }
+        else if (sensor->modelId().startsWith(QLatin1String("Switch 4x EU-LIGHTIFY")) || //Osram 4 buttons remote
+                 sensor->modelId().startsWith(QLatin1String("Lightify Switch Mini"))) // Osram mini switch
+        {
+            // 3 controller endpoints: 0x01, 0x02, 0x03
+            if (gids.length() != 3)
+            {
+                // initialise list of groups: one for each endpoint
+                gids = QStringList();
+                gids << "0" << "0" << "0";
+            }
+
+            // check group corresponding to source endpoint
+            int i = ind.srcEndpoint();
+            i -= 1;
+            if (gids.value(i) != gid)
+            {
+                // replace group corresponding to source endpoint
+                gids.replace(i, gid);
+                item->setValue(gids.join(','));
+                sensor->setNeedSaveDatabase(true);
+                updateSensorEtag(sensor);
+                enqueueEvent(Event(RSensors, RConfigGroup, sensor->id(), item));
+            }
+
+            Event e(RSensors, REventValidGroup, sensor->id());
+            enqueueEvent(e);
+        }
         else
         {
             if (!gids.contains(gid))
@@ -3541,7 +3568,6 @@ void DeRestPluginPrivate::checkSensorButtonEvent(Sensor *sensor, const deCONZ::A
             buttonMap->zclCommandId == zclFrame.commandId())
         {
             ok = true;
-            DBG_Printf(DBG_INFO, "MyDebug 6\n");
 
             if (zclFrame.isProfileWideCommand() &&
                 zclFrame.commandId() == deCONZ::ZclReportAttributesId &&
@@ -4513,15 +4539,6 @@ void DeRestPluginPrivate::addSensorNode(const deCONZ::Node *node, const deCONZ::
         {
             continue;
         }
-        
-        if ( modelId == QLatin1String("Switch 4x EU-LIGHTIFY") || modelId == QLatin1String("Lightify Switch Mini") )
-        {
-            if (i->endpoint() != 0x01) // create sensor only for first endpoint
-            {
-                fpSwitch.inClusters.clear();
-                fpSwitch.outClusters.clear();
-            }
-        }
 
         Sensor *sensor = nullptr;
 
@@ -4546,6 +4563,21 @@ void DeRestPluginPrivate::addSensorNode(const deCONZ::Node *node, const deCONZ::
                     sensor = nullptr;
                 }
                 fpSwitch.endpoint = 2;
+            }
+            
+            if ( modelId == QLatin1String("Switch 4x EU-LIGHTIFY") || modelId == QLatin1String("Lightify Switch Mini") )
+            {
+                DBG_Printf(DBG_INFO_L2, "Using old sensor ?\n");
+                sensor = getSensorNodeForAddress(node->address().ext());
+                if (sensor && sensor->deletedState() != Sensor::StateNormal)
+                {
+                    sensor = nullptr;
+                    DBG_Printf(DBG_INFO_L2, "No\n");
+                }
+                if (sensor)
+                {
+                    DBG_Printf(DBG_INFO_L2, "Yes\n");
+                }
             }
 
             if (!sensor)
