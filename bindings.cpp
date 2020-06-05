@@ -1162,6 +1162,8 @@ bool DeRestPluginPrivate::sendConfigureReportingRequest(BindingTask &bt)
                             sensor->modelId() == QLatin1String("motionv4") ||
                             sensor->modelId() == QLatin1String("multiv4") ||
                             sensor->modelId() == QLatin1String("RFDL-ZB-MS") ||
+                            sensor->modelId() == QLatin1String("Lightify Switch Mini") ||
+                            sensor->modelId() == QLatin1String("Switch 4x EU-LIGHTIFY") ||
                             sensor->modelId() == QLatin1String("Zen-01")))
         {
             rq.attributeId = 0x0020;   // battery voltage
