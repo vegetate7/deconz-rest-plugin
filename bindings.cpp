@@ -2774,17 +2774,18 @@ void DeRestPluginPrivate::checkSensorGroup(Sensor *sensor)
     {
         //Make group but without uniqueid
     }
-    /*
     else if (sensor->modelId().startsWith(QLatin1String("Switch 4x EU-LIGHTIFY")) || //Osram 4 button
              sensor->modelId().startsWith(QLatin1String("Lightify Switch Mini")) ) //Osram mini switch
     {
 
-        // check if group is created for other endpoint
+        // check if group is created for other endpoint feom 0x01 to 0x03 (From my memory you have only 3 endpoints)
         for (quint8 ep = 0x01; !group && ep <= 0x03; ep++)
         {
+            //get a sensor according the mac adress and the ep value
             Sensor *s = getSensorNodeForAddressAndEndpoint(sensor->address(), ep);
             if (s && s->deletedState() == Sensor::StateNormal && s != sensor)
             {
+                //Check the group memorised in this sensor
                 ResourceItem *item = s->item(RConfigGroup);
                 if (item && item->lastSet().isValid())
                 {
@@ -2793,10 +2794,12 @@ void DeRestPluginPrivate::checkSensorGroup(Sensor *sensor)
                     std::vector<Group>::iterator i = groups.begin();
                     std::vector<Group>::iterator end = groups.end();
 
+                    //Now parsing all group in deconz and searching for a group with the same id
                     for (; i != end; ++i)
                     {
                         if (!gid.isEmpty() && i->state() == Group::StateNormal && i->id() == gid)
                         {
+                            //Ok we have find a group so use it
                             group = &*i;
                             break;
                         }
@@ -2804,9 +2807,16 @@ void DeRestPluginPrivate::checkSensorGroup(Sensor *sensor)
                 }
             }
         }
-
+        if (!group)
+        {
+            //No group found so create a new one
+            DBG_Printf(DBG_INFO, "MyDebug 33 : Create group\n");
+        }
+        else
+        {
+            DBG_Printf(DBG_INFO, "MyDebug 33 : Using old group\n");
+        }
     }
-    */
     else if (sensor->modelId() == QLatin1String("RB01") ||
              sensor->modelId() == QLatin1String("RM01"))
     {
