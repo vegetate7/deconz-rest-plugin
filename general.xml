@@ -3082,7 +3082,7 @@ devices can operate on either battery or mains power, and can have a wide variet
 					<attribute id="0x0001" type="u8" name="TransID" required="m" showas="hex" default="0x00"></attribute>
 					<attribute id="0x0002" type="u16" name="Dp" required="m" showas="hex" default="0x0000"></attribute>
 					<attribute id="0x0003" type="u8" name="fn" required="m" showas="hex" default="0x00"></attribute>
-                    <attribute id="0x0003" type="ostring" name="data" required="m" default="1,0x0000"></attribute>
+					<attribute id="0x0004" type="ostring" name="data" required="m" default="1,0x0000"></attribute>
 				</payload>
 			</command>
 
