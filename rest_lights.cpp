@@ -1465,6 +1465,16 @@ int DeRestPluginPrivate::setWindowCoveringState(const ApiRequest &req, ApiRespon
             else if (map[param].type() == QVariant::Double)
             {
                 const int bri = map[param].toInt(&ok);
+                
+                if (taskRef.lightNode->modelId() == QLatin1String("Shutter switch with neutral"))
+                {
+                    // Disable "bri" use if the device already use "on"
+                    if (valueOk)
+                    {
+                        ok = false;
+                    }
+                }
+                
                 if (ok && bri >= 0 && bri <= 255)
                 {
                     valueOk = true;
@@ -1551,11 +1561,6 @@ int DeRestPluginPrivate::setWindowCoveringState(const ApiRequest &req, ApiRespon
         if (taskRef.lightNode->modelId().startsWith(QLatin1String("lumi.curtain")))
         {
             targetLiftZigBee = 100 - targetLift;
-        }
-        else if (taskRef.lightNode->modelId() == QLatin1String("Shutter switch with neutral"))
-        {
-            // Legrand invert bri and don't support other value than 0
-            targetLiftZigBee = targetLift == 0 ? 100 : 0;
         }
         else
         {
