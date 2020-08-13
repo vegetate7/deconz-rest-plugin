@@ -49,6 +49,18 @@ void DeRestPluginPrivate::handleTuyaClusterIndication(const deCONZ::ApsDataIndic
         return;
     }
     
+    //Find model id if missing
+    if (lightNode.modelId().isEmpty())
+    {
+        LightNode *lightNode2 = getLightNodeForAddress(ind.srcAddress(), 0x01);
+        if (!lightNode2.modelId().isEmpty())
+        {
+            DBG_Printf(DBG_INFO, "Tuya debug 9 : Updating model ID");
+            lightNode->setModelId(lightNode2.modelId());
+        }
+    }
+    
+    
     if (zclFrame.commandId() == 0x00)
     {
         // 0x00 : Used to send command, so not used here

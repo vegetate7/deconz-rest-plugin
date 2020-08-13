@@ -1716,9 +1716,6 @@ void DeRestPluginPrivate::addLightNode(const deCONZ::Node *node)
                 DBG_Printf(DBG_INFO, "Tuya : Creating 2 Fake Endpoints\n");
 
                 //Ok it's the good device, make 2 clones with differents endpoints
-                
-                //Note for me, to remove later
-                //sudo cp /usr/share/deCONZ/plugins/libde_rest_plugin.so /usr/share/deCONZ/plugins/libde_rest_plugin2.so
 
                 //node is not modifiable (WHY ?) so use an ugly way
                 deCONZ::Node *NodePachable = const_cast<deCONZ::Node*>(&*node);
